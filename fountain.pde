@@ -1,0 +1,7 @@
+class Fountain
+{
+  
+  void display()
+  {
+  }
+}
