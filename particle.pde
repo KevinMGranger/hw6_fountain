@@ -5,20 +5,25 @@ class Particle
   Body body;
   color col;
   
-  
-  Particle(PVector pos, color col)
+  Particle(Vec2 pos)
   {
-    this(pos, new PVector(), col);
+    this(pos, getNextBallColor());
   }
   
-  Particle(PVector pos, PVector vel, color col)
+  Particle(Vec2 pos, color col)
+  {
+    this(pos, new Vec2(), col);
+  }
+  
+  Particle(Vec2 pos, Vec2 vel, color col)
   {
     this(pos, vel, RAD, col);
   }
 
-  Particle(PVector pos, PVector vel, float radius, color col)
+  Particle(Vec2 pos, Vec2 vel, float radius, color col)
   {
     rad = radius;
+    this.col = col;
     
     BodyDef bd = new BodyDef();
     bd.type = BodyType.DYNAMIC;
@@ -40,7 +45,7 @@ class Particle
   
   void display()
   {
-    PVector pos = world.getBodyPixelCoordPVector(body);
+    Vec2 pos = world.getBodyPixelCoord(body);
     
     float ang = body.getAngle();
     
