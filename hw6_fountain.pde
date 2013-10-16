@@ -38,7 +38,7 @@ void setup()
   world.createWorld();
 
   // setup fountain
-  fountain = new Fountain(width/2, height-10);
+  fountain = new Fountain(width/2, height/2);
 }
 
 void setupVisual()
@@ -65,7 +65,8 @@ boolean isInScreen(Vec2 pos)
 
 void draw()
 {
-  background(WHITE, BACK_ALPHA);
+//  background(WHITE, BACK_ALPHA);
+   background(WHITE);
   world.step();
 
 

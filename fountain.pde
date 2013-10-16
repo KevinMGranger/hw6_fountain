@@ -1,7 +1,8 @@
 class Fountain
 {
   Body body;
-  float w, h;
+  
+  float HEIGHT = height/16, WIDTH = width/8;
 
   Fountain()
   {
@@ -22,8 +23,8 @@ class Fountain
     body = world.createBody(bd);
 
     PolygonShape ps = new PolygonShape();
-    w = world.scalarPixelsToWorld(width);
-    h = world.scalarPixelsToWorld(height/16);
+    float w = world.scalarPixelsToWorld(WIDTH);
+    float h = world.scalarPixelsToWorld(HEIGHT);
     ps.setAsBox(w, h);
 
     FixtureDef fd = new FixtureDef();
@@ -45,9 +46,8 @@ class Fountain
 
     pushMatrix();
     translate(pos.x, pos.y);
-    //    rotate(-ang);
-    rectMode(CENTER);
-    rect(pos.x, pos.y, w, h);
+    rectMode(RADIUS);
+    rect(0, 0, WIDTH, HEIGHT);
     popMatrix();
   }
 }
