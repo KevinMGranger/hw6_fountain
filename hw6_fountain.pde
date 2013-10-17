@@ -26,6 +26,8 @@ ArrayList<Particle> particles;
 // time tracking for perlin noise
 float time = 0;
 
+int FTN_EDGE_OFFSET = 25;
+
 void setup()
 {
   size(displayWidth - SCREEN_BORDER_SIZE, displayHeight - SCREEN_BORDER_SIZE, P2D);

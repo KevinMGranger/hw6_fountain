@@ -1,8 +1,10 @@
 class Fountain
 {
   Body body;
-  
-  float HEIGHT = height/16, WIDTH = width/8;
+
+  Vec2[][] topLayer, botLayer;
+
+
 
   Fountain()
   {
@@ -22,13 +24,30 @@ class Fountain
 
     body = world.createBody(bd);
 
-    PolygonShape ps = new PolygonShape();
-    float w = world.scalarPixelsToWorld(WIDTH);
-    float h = world.scalarPixelsToWorld(HEIGHT);
-    ps.setAsBox(w, h);
+    ChainShape cs = new ChainShape();
+    float widDiv = width/8;
+    float heiDiv = height/8;
+    topLayer = {
+      {
+        new Vec2(FTN_EDGE_OFFSET, heiDiv), 
+        new Vec2(FTN_EDGE_OFFSET+widDiv, 2*heiDiv),
+      }
+      , 
+      {
+        new Vec2(2*FTN_EDGE_OFFSET+widDiv, 2*heiDiv), 
+        new Vec2(2*FTN_EDGE_OFFSET+2*widDiv, heiDiv),
+      }
+    }
+    
+    botLayer = new Vec2[topLayer.length];
+    for (int i=0; i<botLayer.length; i++) {
+      botLayer[i] = new Vec2
+
+
+
 
     FixtureDef fd = new FixtureDef();
-    fd.shape = ps;
+    fd.shape = cs;
     fd.friction = FRIC;
     fd.density = DENS;
     fd.restitution = ELAS;
@@ -51,3 +70,4 @@ class Fountain
     popMatrix();
   }
 }
+
