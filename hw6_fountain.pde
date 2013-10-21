@@ -21,7 +21,8 @@ final float RAD = 6, FRIC = 0.3, DENS = 1.0, ELAS = 0.5;
 // management stuff
 PBox2D world;
 Fountain fountain;
-ArrayList<Particle> particles;
+ArrayList<Particle> particles = new ArrayList<Particle>();
+ArrayList<Spout> spouts = new ArrayList<Spout>();
 
 // time tracking for perlin noise
 float time = 0;
@@ -34,13 +35,17 @@ void setup()
 
   setupVisual();
 
-  particles = new ArrayList<Particle>();
-
   world = new PBox2D(this);
   world.createWorld();
 
   // setup fountain
-  fountain = new Fountain(width/2, height/2);
+  fountain = new Fountain();
+
+  // set up spouts
+  float x, y;
+  x = FTN_EDGE_OFFSET * 2.5;
+  y = FTN_EDGE_OFFSET * 1.7;
+  spouts.add(new Spout(new Vec2(x, y), new Vec2(0, -0.5)));
 }
 
 void setupVisual()
@@ -60,18 +65,21 @@ color getNextBallColor()
 }
 
 boolean isInScreen(Vec2 pos)
-{
+{  
   return (pos.x<width) && (pos.x>0) && (pos.y>height) && (pos.y<0);
 }
 
 
 void draw()
 {
-//  background(WHITE, BACK_ALPHA);
-   background(WHITE);
+  //  background(WHITE, BACK_ALPHA);
+  //   background(WHITE);
+
   world.step();
 
-
+  for (Spout s : spouts) {
+    s.pressurize();
+  }
 
   if (mousePressed)
   {

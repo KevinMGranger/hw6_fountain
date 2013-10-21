@@ -10,6 +10,11 @@ class Particle
     this(pos, getNextBallColor());
   }
   
+  Particle(Vec2 pos, Vec2 vel)
+  {
+    this(pos, vel, getNextBallColor());
+  }
+  
   Particle(Vec2 pos, color col)
   {
     this(pos, new Vec2(), col);
