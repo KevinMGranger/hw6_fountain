@@ -2,48 +2,41 @@ class Fountain
 {
   Body body;
 
-  Vec2[][] topLayer, botLayer;
+  Vec2[] leftTrgl, rightTrgl;
 
 
 
   Fountain()
   {
-    this(new Vec2(width/2, height/2));
-  }
-
-  Fountain(float x, float y)
-  {
-    this(new Vec2(x, y));
-  }
-
-  Fountain(Vec2 pos)
-  {
     BodyDef bd = new BodyDef();
     bd.type = BodyType.STATIC;
-    bd.position.set(world.coordPixelsToWorld(pos));
+    bd.position.set(world.coordPixelsToWorld(width/2, height/2));
 
     body = world.createBody(bd);
 
     ChainShape cs = new ChainShape();
     float widDiv = width/8;
     float heiDiv = height/8;
-    topLayer = {
-      {
-        new Vec2(FTN_EDGE_OFFSET, heiDiv), 
-        new Vec2(FTN_EDGE_OFFSET+widDiv, 2*heiDiv),
-      }
-      , 
-      {
-        new Vec2(2*FTN_EDGE_OFFSET+widDiv, 2*heiDiv), 
-        new Vec2(2*FTN_EDGE_OFFSET+2*widDiv, heiDiv),
-      }
+
+    leftTrgl = new Vec2[3];
+    leftTrgl[0] = new Vec2(FTN_EDGE_OFFSET, heiDiv);
+    leftTrgl[1] = new Vec2(FTN_EDGE_OFFSET+widDiv, 2*heiDiv);
+    leftTrgl[2] = new Vec2(FTN_EDGE_OFFSET, 2*heiDiv);
+
+    rightTrgl = new Vec2[3];
+    leftTrgl[0] = new Vec2(width-FTN_EDGE_OFFSET, heiDiv);
+    leftTrgl[1] = new Vec2(width-FTN_EDGE_OFFSET-widDiv, 2*heiDiv);
+    leftTrgl[2] = new Vec2(width-FTN_EDGE_OFFSET, 2*heiDiv);
+
+    // now make the world-coordinate-based arrays
+
+    Vec2[] leftWorld = new Vec2[3], rightWorld = new Vec2[3];
+
+
+    for (int i=0; i<leftWorld.length; i++) {
+      leftWorld[i] = world.coordPixelsToWorld(leftTrgl[i]);
+      rightWorld[i] = world.coordPixelsToWorld(rightTrgl[i]);
     }
-    
-    botLayer = new Vec2[topLayer.length];
-    for (int i=0; i<botLayer.length; i++) {
-      botLayer[i] = new Vec2
-
-
 
 
     FixtureDef fd = new FixtureDef();
@@ -70,4 +63,3 @@ class Fountain
     popMatrix();
   }
 }
-
