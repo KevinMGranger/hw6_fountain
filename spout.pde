@@ -4,6 +4,11 @@ class Spout
   int framesToFire;
   int currentPressure = 0;
   
+  Spout()
+  {
+    this(new Vec2(), new Vec2());
+  }
+  
   Spout(Vec2 pos, Vec2 vel)
   {
     this(pos, vel, 120);
@@ -18,7 +23,10 @@ class Spout
   
   void pressurize()
   {
-    if (++currentPressure >= framesToFire) this.fire();
+    if (++currentPressure >= framesToFire) {
+      this.fire();
+      currentPressure = 0;
+    }
   } 
   
   void fire()

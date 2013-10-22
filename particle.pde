@@ -36,6 +36,8 @@ class Particle
     
     body = world.createBody(bd);
     
+    body.setLinearVelocity(world.vectorPixelsToWorld(vel));
+    
     CircleShape cs = new CircleShape();
     cs.m_radius = world.scalarPixelsToWorld(radius);
     

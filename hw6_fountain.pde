@@ -10,7 +10,7 @@ import org.jbox2d.dynamics.*;
  * 4. fixture (shape <- shape, fric dens res) -> body
  */
 
-int SCREEN_BORDER_SIZE = 400;
+PImage img;
 
 color BLACK, WHITE, BLUE;
 float BACK_ALPHA = 50, BALL_SATURATION = 100, BALL_BRIGHTNESS = 100;
@@ -23,6 +23,7 @@ PBox2D world;
 Fountain fountain;
 ArrayList<Particle> particles = new ArrayList<Particle>();
 ArrayList<Spout> spouts = new ArrayList<Spout>();
+Spout mouseSpout = new Spout(new Vec2(), new Vec2(), 30);
 
 // time tracking for perlin noise
 float time = 0;
@@ -31,12 +32,14 @@ int FTN_EDGE_OFFSET = 25;
 
 void setup()
 {
-  size(displayWidth - SCREEN_BORDER_SIZE, displayHeight - SCREEN_BORDER_SIZE, P2D);
+  size(800, 600, P2D);
 
   setupVisual();
 
   world = new PBox2D(this);
   world.createWorld();
+
+  img = loadImage("bkrnd.jpg");
 
   // setup fountain
   fountain = new Fountain();
@@ -45,7 +48,8 @@ void setup()
   float x, y;
   x = FTN_EDGE_OFFSET * 2.5;
   y = FTN_EDGE_OFFSET * 1.7;
-  spouts.add(new Spout(new Vec2(x, y), new Vec2(0, -0.5)));
+  spouts.add(new Spout(new Vec2(x, y), new Vec2(width/5, -10)));
+  spouts.add(new Spout(new Vec2(width-x, y), new Vec2(-width/6, -10)));
 }
 
 void setupVisual()
@@ -66,14 +70,13 @@ color getNextBallColor()
 
 boolean isInScreen(Vec2 pos)
 {  
-  return (pos.x<width) && (pos.x>0) && (pos.y>height) && (pos.y<0);
+  return (pos.x<width) && (pos.x>0) && (pos.y<height) && (pos.y>0);
 }
 
 
 void draw()
 {
-  //  background(WHITE, BACK_ALPHA);
-  //   background(WHITE);
+  image(img, 0, 0);
 
   world.step();
 
@@ -83,7 +86,19 @@ void draw()
 
   if (mousePressed)
   {
-    particles.add(new Particle(new Vec2(mouseX, mouseY)));
+    mouseSpout.pos.set(mouseX, mouseY);
+    mouseSpout.pressurize();
+//    particles.add(new Particle(new Vec2(mouseX, mouseY)));
+  }
+
+  //check if any particles are off screen first
+  for (int i=0; i < particles.size(); i++) {
+    Particle p = particles.get(i);
+    if (!isInScreen(world.getBodyPixelCoord(p.body)))
+    {
+      world.destroyBody(p.body);
+      particles.remove(p);
+    }
   }
 
   fountain.display();
